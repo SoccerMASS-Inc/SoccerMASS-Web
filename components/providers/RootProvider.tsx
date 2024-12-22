@@ -6,13 +6,14 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { setCssThemeVar } from "utils/helpers";
 import { INIT_PROFILE } from "utils/constants";
-import { theme as antdTheme, Spin } from "antd";
+import { theme as antdTheme } from "antd";
 import { setProfileAction } from "store/actions/account";
 import { setDeviceSizeAction, setDisplayHeaderAction, setBreakpointAction, setActiveRouteAction } from "store/actions/layout";
 
-const HeaderContainer = dynamic(() => import("components/layouts/header/HeaderContainer")),
-  ConfigProvider = dynamic(() => import("antd").then((module) => module.ConfigProvider), { ssr: false }),
-  AntdRegistry = dynamic(() => import("@ant-design/nextjs-registry").then((module) => module.AntdRegistry), { ssr: false });
+const ConfigProvider = dynamic(() => import("antd").then((module) => module.ConfigProvider)),
+  WebVitals = dynamic(() => import("components/shared/web-vitals/WebVitals"), { ssr: false }),
+  HeaderContainer = dynamic(() => import("components/layouts/header/HeaderContainer"), { ssr: false }),
+  AntdRegistry = dynamic(() => import("@ant-design/nextjs-registry").then((module) => module.AntdRegistry));
 
 const RootProvider = ({ children, ...props }: any) => {
   const { setProfileAction, setDeviceSizeAction, setDisplayHeaderAction, setBreakpointAction, setActiveRouteAction } = props;
@@ -112,8 +113,6 @@ const RootProvider = ({ children, ...props }: any) => {
     }
   };
 
-  if (!initialized) return <Loading />;
-
   return (
     <AntdRegistry>
       <ConfigProvider
@@ -130,8 +129,15 @@ const RootProvider = ({ children, ...props }: any) => {
             colorLinkActive: "", // <= disable antd link color
           },
         }}>
-        <HeaderContainer position="sticky" />
-        {children}
+        {initialized ? (
+          <>
+            <HeaderContainer position="sticky" />
+            {children}
+          </>
+        ) : (
+          <Loading fullscreen />
+        )}
+        <WebVitals />
       </ConfigProvider>
     </AntdRegistry>
   );

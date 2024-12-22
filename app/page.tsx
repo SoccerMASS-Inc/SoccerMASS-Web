@@ -1,28 +1,29 @@
-"use client";
+// "use client";
 
 import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 
-const Header = dynamic(() => import("components/layouts/header/HeaderContainer")),
+const Header = dynamic(() => import("components/layouts/header/HeaderContainer"), { loading: () => <p>Loading...</p> }),
+  metadata: Metadata = { title: "Soccer Manager", description: "Revamped Football Manager" },
   ManagerContainer = dynamic(() => import("components/home/ManagerContainer")),
   FooterContainer = dynamic(() => import("components/layouts/footer")),
   WelcomeScreen = dynamic(() => import("components/home/Welcome")),
   ApiHub = dynamic(() => import("components/home/ApiHub"));
 
-// metadata: Metadata = { title: "Soccer Manager", description: "Revamped Football Manager" },
+// export const metadata: Metadata = { title: "Soccer Manager", description: "Revamped Football Manager" };
 
-export default function Home() {
-  return (
-    <>
-      <span>sss</span>
-      {/* <main>
-        <Header position="relative" />
-        <WelcomeScreen />
-        <ManagerContainer />
-        <ApiHub />
-      </main>
-      <FooterContainer /> */}
-      {/* <RefreshHome /> */}
-    </>
-  );
-}
+const HomePage = () => (
+  <>
+    <main>
+      <Header position="relative" />
+      <WelcomeScreen />
+      <ManagerContainer />
+      <ApiHub />
+    </main>
+    {/* <FooterContainer /> */}
+    {/* <RefreshHome /> */}
+  </>
+);
+
+// export default HomePage;
+export { metadata, HomePage as default };

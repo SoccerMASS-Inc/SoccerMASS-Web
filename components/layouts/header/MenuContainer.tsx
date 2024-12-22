@@ -1,5 +1,4 @@
 import Menu from "./Menu";
-
 import { useState } from "react";
 
 interface MenuContainerProps {

@@ -1,3 +1,5 @@
+"use client";
+
 import apiHubStyles from "./apiHub.module.scss";
 
 import Link from "next/link";

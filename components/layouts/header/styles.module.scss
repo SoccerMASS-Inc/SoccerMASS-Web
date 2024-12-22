@@ -21,27 +21,17 @@ header.relativeHeader {
     background-color: transparent;
 
     & > div:nth-of-type(1) {
-      // display: flex;
-      // justify-content: space-between;
-      // align-items: center;
-      // width: 100%;
-      // border: 3px solid red;
       column-gap: 10px;
 
-      // @include styles.quickFlex($dir: row, $column: 10px);
       & > a {
-        // delay colors with in header title => Soccer MASS
-        transition: color 0.3s linear;
-        // border: 3px solid red;
-
-        // color: $primary-color;
+        transition: color 0.3s linear; // delay colors with in header title => Soccer MASS
         &:hover {
-          color: var(--contrast-color);
-          background: linear-gradient(to left, var(--secondary-color), var(--primary-color) 100%);
-          background-position: 0 100%;
-          background-size: 100% 2px;
-          background-repeat: repeat-x;
           border-radius: 30px;
+          background-size: 100% 2px;
+          color: var(--contrast-color);
+          background-position: 0 100%;
+          background-repeat: repeat-x;
+          background: linear-gradient(to left, var(--secondary-color), var(--primary-color) 100%);
         }
       }
     }
@@ -52,11 +42,11 @@ header.relativeHeader {
       a {
         color: var(--primary-color);
         &:hover {
+          background-size: 100% 2px;
+          background-position: 0 100%;
+          background-repeat: repeat-x;
           color: var(--contrast-color);
           background: linear-gradient(to left, var(--secondary-color), var(--primary-color) 100%);
-          background-position: 0 100%;
-          background-size: 100% 2px;
-          background-repeat: repeat-x;
         }
       }
     }
@@ -86,8 +76,8 @@ header.stickyHeader {
     padding: 12px 20px;
     background-color: var(--text-primary-color);
     box-shadow: 0px 5px 9px 0px rgba(var(--text-secondary-color), 0.75);
-    -webkit-box-shadow: 0px 5px 9px 0px rgba(var(--text-secondary-color), 0.75);
     -moz-box-shadow: 0px 5px 9px 0px rgba(var(--text-secondary-color), 0.75);
+    -webkit-box-shadow: 0px 5px 9px 0px rgba(var(--text-secondary-color), 0.75);
   }
 }
 

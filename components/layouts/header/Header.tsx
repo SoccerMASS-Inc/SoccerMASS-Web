@@ -1,34 +1,29 @@
-"use client";
-
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import styles from "./styles.module.scss";
 import { VisibleState } from "./HeaderContainer";
 
-const MenuContainer = dynamic(() => import("./MenuContainer")),
+const navLinks = [
+    { title: "Home", path: "/" },
+    { title: "API Hub", path: "/apihub" },
+    { title: "Manager", path: "/games" },
+  ],
   Flex = dynamic(() => import("antd").then((x) => x.Flex)),
+  MenuContainer = dynamic(() => import("./MenuContainer")),
+  Button = dynamic(() => import("antd").then((x) => x.Button)),
   BiLogIn = dynamic(() => import("react-icons/bi").then((x) => x.BiLogIn)),
   BiLogOut = dynamic(() => import("react-icons/bi").then((x) => x.BiLogOut)),
-  Button = dynamic(() => import("antd").then((x) => x.Button)),
+  Typography = dynamic(() => import("antd").then((x) => x.Typography.Text)),
   MdDarkMode = dynamic(() => import("react-icons/md").then((x) => x.MdDarkMode)),
   MdLightMode = dynamic(() => import("react-icons/md").then((x) => x.MdLightMode)),
-  SocialContainer = dynamic(() => import("components/shared/social/SocialContainer")),
-  Typography = dynamic(() => import("antd").then((x) => x.Typography.Text));
-
-const navLinks = [
-  { title: "Home", path: "/" },
-  { title: "API Hub", path: "/apihub" },
-  { title: "Manager", path: "/games" },
-];
+  SocialContainer = dynamic(() => import("components/shared/social/SocialContainer"));
 
 interface HeaderProps {
-  authenticated: boolean;
-  // swapColorFn: Function;
-  // color: ColorState;
   theme: Theme;
   profile: Profile;
-  themeHandler: React.MouseEventHandler<HTMLButtonElement>;
   visible: VisibleState;
+  authenticated: boolean;
+  themeHandler: React.MouseEventHandler<HTMLButtonElement>;
   className: "relativeHeader" | "stickyHeader" | "hiddenHeader";
 }
 
