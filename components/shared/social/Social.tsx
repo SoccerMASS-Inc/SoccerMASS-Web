@@ -1,4 +1,7 @@
+import { Flex } from "antd";
 import dynamic from "next/dynamic";
+import { SOCIAL_ACCOUNTS } from "utils/constants";
+
 const MdFacebook = dynamic(() => import("react-icons/md").then((x) => x.MdFacebook));
 const TbPhoneCall = dynamic(() => import("react-icons/tb").then((x) => x.TbPhoneCall));
 const TiSocialTwitter = dynamic(() => import("react-icons/ti").then((x) => x.TiSocialTwitter));
@@ -43,3 +46,13 @@ export const Social = ({ account, link, fontSize }: { link: string; account: str
     </a>
   ) : null;
 };
+
+const SocialContainer = ({ filterParams, fontSize = "18px" }: { fontSize?: string; filterParams: string[] }) => (
+  <Flex gap={10}>
+    {SOCIAL_ACCOUNTS.filter((acc) => filterParams.includes(acc.id)).map(({ title, id, href }) => (
+      <Social key={id} account={title} link={href} fontSize={fontSize} />
+    ))}
+  </Flex>
+);
+
+export default SocialContainer;

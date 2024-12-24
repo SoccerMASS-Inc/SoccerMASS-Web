@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 const Text = dynamic(() => import("antd").then((x) => x.Typography.Text));
 const Title = dynamic(() => import("antd").then((x) => x.Typography.Title));
-const SocialContainer = dynamic(() => import("components/shared/social/SocialContainer"));
+const SocialContainer = dynamic(() => import("components/shared/social/Social"));
 
 const Footer = () => (
   <div data-testid="footer" className={styles.footer} style={{ maxWidth: "100vw", overflowX: "hidden" }}>
