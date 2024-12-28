@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { VscHome } from "react-icons/vsc";
 import styles from "./manager.module.scss";
@@ -88,16 +90,4 @@ export default function Manager({ slidesToShow, deviceWidth }: { slidesToShow: n
   );
 }
 
-const clubs = [
-  "club00001",
-  "club00043",
-  "club00021",
-  "club00031",
-  "club00024",
-  "club00002",
-  "club00026",
-  "club00022",
-  "club00042",
-  "club00011",
-  "club00025",
-];
+const clubs = ["club00001", "club00043", "club00021", "club00031", "club00024", "club00002", "club00026", "club00022", "club00042", "club00011", "club00025"];

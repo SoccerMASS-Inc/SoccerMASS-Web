@@ -14,7 +14,7 @@ const Flex = dynamic(() => import("antd").then((x) => x.Flex)),
   VscSignIn = dynamic(() => import("react-icons/vsc").then((x) => x.VscSignIn)),
   VscSignOut = dynamic(() => import("react-icons/vsc").then((x) => x.VscSignOut)),
   VscPersonAdd = dynamic(() => import("react-icons/vsc").then((x) => x.VscPersonAdd)),
-  SocialContainer = dynamic(() => import("components/shared/social/Social")),
+  SocialContainer = dynamic(() => import("components/shared/social")),
   AiOutlineClose = dynamic(() => import("react-icons/ai").then((x) => x.AiOutlineClose));
 
 const navLinks = [

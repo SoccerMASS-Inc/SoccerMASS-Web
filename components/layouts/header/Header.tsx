@@ -16,7 +16,7 @@ const navLinks = [
   Typography = dynamic(() => import("antd").then((x) => x.Typography.Text)),
   MdDarkMode = dynamic(() => import("react-icons/md").then((x) => x.MdDarkMode)),
   MdLightMode = dynamic(() => import("react-icons/md").then((x) => x.MdLightMode)),
-  SocialContainer = dynamic(() => import("components/shared/social/Social"));
+  SocialContainer = dynamic(() => import("components/shared/social"));
 
 interface HeaderProps {
   theme: Theme;

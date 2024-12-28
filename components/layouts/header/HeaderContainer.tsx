@@ -15,7 +15,7 @@ interface HeaderContainerProps {
   deviceWidth: number;
   displayHeader: boolean;
   authenticated: boolean;
-  setThemeAction?: Function;
+  setThemeAction: Function;
   position: "relative" | "sticky";
 }
 
@@ -57,17 +57,18 @@ const HeaderContainer = (props: HeaderContainerProps) => {
 
   const themeHandler = async () => {
     const newTheme = theme === "dark" ? "light" : "dark";
+
     setTheme(newTheme);
+    setThemeAction(newTheme);
 
-    import("utils/helpers").then((module) => {
-      module.setCssThemeVar(newTheme);
-      if (setThemeAction) setThemeAction(newTheme);
+    // import("utils/helpers").then((module) => {
+    //   module.setCssThemeVar(newTheme);
 
-      // if (authenticated)
-      //   await accountsService
-      //     .setTheme({ theme: newTheme })
-      //     .catch(() => enqueueSnackbar("Failed to save new theme across profile", { variant: "error" }));
-    });
+    // if (authenticated)
+    //   await accountsService
+    //     .setTheme({ theme: newTheme })
+    //     .catch(() => enqueueSnackbar("Failed to save new theme across profile", { variant: "error" }));
+    // });
   };
 
   // return <p>ss</p>;
