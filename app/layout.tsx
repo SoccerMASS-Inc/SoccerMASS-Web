@@ -14,7 +14,9 @@ const robotoSlab = Roboto_Slab({ subsets: ["latin"], display: "swap" });
 const LayoutProvider = dynamic(() => import("components/layouts/layoutProvider")),
   ConfigProvider = dynamic(() => import("antd").then((module) => module.ConfigProvider)),
   ReduxProvider = dynamic(() => import("react-redux").then((module) => module.Provider)),
-  AntdRegistry = dynamic(() => import("@ant-design/nextjs-registry").then((module) => module.AntdRegistry));
+  Analytics = dynamic(() => import("@vercel/analytics/react").then((module) => module.Analytics)),
+  AntdRegistry = dynamic(() => import("@ant-design/nextjs-registry").then((module) => module.AntdRegistry)),
+  SpeedInsights = dynamic(() => import("@vercel/speed-insights/next").then((module) => module.SpeedInsights));
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const [theme, setTheme] = useState<Theme>("light"),
@@ -43,6 +45,9 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
             </ReduxProvider>
           </ConfigProvider>
         </AntdRegistry>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -11,12 +11,12 @@ const navLinks = [
   Flex = dynamic(() => import("antd").then((x) => x.Flex)),
   MenuContainer = dynamic(() => import("./MenuContainer")),
   Button = dynamic(() => import("antd").then((x) => x.Button)),
+  SocialContainer = dynamic(() => import("components/shared/social")),
   BiLogIn = dynamic(() => import("react-icons/bi").then((x) => x.BiLogIn)),
-  BiLogOut = dynamic(() => import("react-icons/bi").then((x) => x.BiLogOut)),
   Typography = dynamic(() => import("antd").then((x) => x.Typography.Text)),
+  BiLogOut = dynamic(() => import("react-icons/bi").then((x) => x.BiLogOut)),
   MdDarkMode = dynamic(() => import("react-icons/md").then((x) => x.MdDarkMode)),
-  MdLightMode = dynamic(() => import("react-icons/md").then((x) => x.MdLightMode)),
-  SocialContainer = dynamic(() => import("components/shared/social"));
+  MdLightMode = dynamic(() => import("react-icons/md").then((x) => x.MdLightMode))
 
 interface HeaderProps {
   theme: Theme;
