@@ -28,76 +28,35 @@ test("Header reacts to scroll events", async ({ page }) => {
   await page.goto("/");
 
   // Wait for page to initialize
-  const initSelector = page.getByTestId("initializing");
-  await expect(initSelector, "Page to have initialized and contents visible while loading spinner is hidden").not.toBeVisible({
+  const initializingSelector = page.getByTestId("initializing");
+  await expect(initializingSelector, "Page to have initialized and contents visible while loading spinner is hidden").not.toBeVisible({
     timeout: 10000, // default timeout for assertion is 5ms
   });
 
-  // await page.waitForTimeout(1000); // Pause for effect
   await page.evaluate(() => {
     window.scrollBy(0, document.querySelector("body")!.scrollHeight); // Scroll to bottom of page
   });
 
-  await page.waitForTimeout(1000); // Pause for effect
+  const stickyHeaderSelector = page.getByTestId("stickyHeader");
+  await expect(stickyHeaderSelector, "Sticky Header should be visible when users scroll to the bottom of the page").toBeVisible();
 
-  // const stickyHeaderSelector = page.getByTestId("stickyHeader");
-  // await expect(await page.getByTestId("stickyHeader"), "Sticky Header should be visible when users scroll to the bottom of the page").toBeVisible();
-  await expect(
-    await page.locator('[data-test-id="stickyHeader"]').getByText("Wave ResearchHomeAPI"),
-    "Sticky Header should be visible when users scroll to the bottom of the page"
-  ).toBeVisible();
-
-  // await page.waitForTimeout(500); // Pause for effect
-  // await page.keyboard.press("ArrowUp"); // Scroll down a page
-  // await page.waitForTimeout(500); // Pause for effect
-
-  // await expect(stickyHeaderSelector, "Sticky Header should be visible when a user is scrolling up").toBeVisible();
-
-  // await page.waitForTimeout(500); // Pause for effect
-  // await page.keyboard.press("PageDown"); // Scroll down a page
-  // await page.waitForTimeout(500); // Pause for effect
-
-  // await expect(stickyHeaderSelector, "Sticky Header should be visible when a user is scrolling up").not.toBeVisible();
-
-  // //   if (await stickyHeader.isVisible()) {
-  // //     await stickyHeader.click();
+  await page.keyboard.press("PageUp"); // Scroll down a page
   await page.waitForTimeout(500); // Pause for effect
+  await expect(stickyHeaderSelector, "Sticky Header should be visible when users scroll/scrolling upwards").toBeVisible();
 
-  // await page.evaluate(() => {
-  //   page.mouse.wheel(deltaX, deltaY);
-  // });
+  // ? PageUp scrolls further compared to ArrowUp
 
-  // await page.waitForTimeout(500); // Pause for effect
+  await page.keyboard.press("ArrowDown"); // Scroll down a page
+  await page.waitForTimeout(500); // Pause for effect
+  await expect(stickyHeaderSelector, "Sticky Header should be hidden when users scroll/scrolling downwards").not.toBeVisible();
 
-  // await page.waitForTimeout(500); // Pause for effect
-  // await page.getByTestId("apihub").click();
-  // await page.waitForTimeout(500); // Pause for effect
-  // await page.keyboard.press("ArrowUp"); // Scroll down a bit
-  // // await page.keyboard.press("PageUp"); // Scroll down a page
+  await page.keyboard.press("ArrowUp"); // Scroll down a page
+  await page.waitForTimeout(500); // Pause for effect
+  await expect(stickyHeaderSelector, "Sticky Header should be visible when users scroll/scrolling upwards").toBeVisible();
 
-  // await page.waitForTimeout(500); // Pause for effect
+  await page.evaluate(() => {
+    window.scrollTo(0, 0); // Scroll to top of page
+  });
 
-  // await page.getByTestId("apihub").scrollIntoViewIfNeeded();
-  // await page.getByTestId("apihub").click();
-
-  // await page.waitForTimeout(500); // Pause for effect
-
-  // await page.waitForTimeout(500); // Pause for effect
-  // await page.keyboard.press("PageUp"); // Scroll down a page
-  // await page.waitForTimeout(500); // Pause for effect
-
-  // await page.keyboard.press("ArrowUp"); // Scroll down a bit
+  await expect(stickyHeaderSelector, "Sticky Header should be hidden when users scroll to the top of the page").not.toBeVisible();
 });
-
-// test("scroll to bottom", async ({ page }) => {
-//   await page.goto("/");
-
-//   // await page.getByTestId("footer").scrollIntoViewIfNeeded();
-//   // await page.getByTestId("footer").click();
-
-//   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-//   await page.waitForTimeout(5000);
-//   // expect(await page.locator("//a[contains(text(),'Next')]").isVisible()).toBeTruthy();
-//   // expect(await page.getByTestId("stickyHeader").isVisible()).toBeTruthy();
-//   expect(await page.getByTestId("footer").isVisible()).toBeTruthy();
-// });
