@@ -28,5 +28,6 @@
     "@types/react-dom": "^19",
     "sass": "^1.83.0",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "^pnpm@9.15.2"
 }
