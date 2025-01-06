@@ -16,7 +16,7 @@ const navLinks = [
   Typography = dynamic(() => import("antd").then((x) => x.Typography.Text)),
   BiLogOut = dynamic(() => import("react-icons/bi").then((x) => x.BiLogOut)),
   MdDarkMode = dynamic(() => import("react-icons/md").then((x) => x.MdDarkMode)),
-  MdLightMode = dynamic(() => import("react-icons/md").then((x) => x.MdLightMode))
+  MdLightMode = dynamic(() => import("react-icons/md").then((x) => x.MdLightMode));
 
 interface HeaderProps {
   theme: Theme;
@@ -28,7 +28,7 @@ interface HeaderProps {
 }
 
 const Header = ({ className, authenticated, theme, themeHandler, visible, profile }: HeaderProps) => (
-  <header id="header" data-test-id={className} className={styles[className]}>
+  <header id="header" data-testid={className} className={styles[className]}>
     <main>
       <Button
         type="text"

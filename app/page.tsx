@@ -8,19 +8,22 @@ const ApiHub = dynamic(() => import("components/home/ApiHub")),
   Header = dynamic(() => import("components/layouts/header/HeaderContainer")),
   ManagerContainer = dynamic(() => import("components/home/ManagerContainer"));
 
-export const metadata: Metadata = { title: "Soccer Manager", description: "Revamped Football Manager" };
+export const metadata: Metadata = {
+  title: "Wave Research",
+  description:
+    "Revamped Football Manager for everyone with advanced real world simulation and Football API Provider for all your soccer data needs. Available Everywhere at every time",
+  keywords: ["soccer manager", "soccer", "waverd", "football manager", "football"],
+};
 
 const HomePage = () => (
-  <>
+  <main>
     <Header position="relative" />
-    <main>
-      <WelcomeScreen />
-      <ManagerContainer />
-      <ApiHub />
-    </main>
+    <WelcomeScreen />
+    <ManagerContainer />
+    <ApiHub />
     <FooterContainer />
     {/* <RefreshHome /> */}
-  </>
+  </main>
 );
 
 export default HomePage;

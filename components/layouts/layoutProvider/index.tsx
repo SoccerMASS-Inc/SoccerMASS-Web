@@ -9,8 +9,7 @@ import { INIT_PROFILE } from "utils/constants";
 import { setProfileAction } from "store/actions/account";
 import { setDeviceSizeAction, setDisplayHeaderAction, setBreakpointAction } from "store/actions/layout";
 
-const Header = dynamic(() => import("components/layouts/header/HeaderContainer")),
-  Watermark = dynamic(() => import("antd").then((module) => module.Watermark));
+const Header = dynamic(() => import("components/layouts/header/HeaderContainer"));
 
 const LayoutProvider = ({ children, ...props }: any) => {
   const user = null,
@@ -98,18 +97,12 @@ const LayoutProvider = ({ children, ...props }: any) => {
     }
   };
 
+  if (!initialized) return <Loading fullscreen testId="initializing" />;
+
   return (
     <>
-      {initialized ? (
-        <>
-          <Header position="sticky" />
-          {children}
-        </>
-      ) : (
-        <Watermark content="Wave Research">
-          <Loading fullscreen />
-        </Watermark>
-      )}
+      <Header position="sticky" />
+      {children}
     </>
   );
 };
