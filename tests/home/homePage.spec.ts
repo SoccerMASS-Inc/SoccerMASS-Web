@@ -25,6 +25,8 @@ import { test, expect } from "@playwright/test";
 // });
 
 test("Header reacts to scroll events", async ({ page }) => {
+  console.log(process.env.NODE_ENV);
+
   await page.goto("/");
 
   // Wait for page to initialize
