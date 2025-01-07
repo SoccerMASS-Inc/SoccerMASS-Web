@@ -1,9 +1,9 @@
 name: Playwright Tests
 on:
   push:
-    branches: [main]
+    branches: [main, development]
   pull_request:
-    branches: [main]
+    branches: [main, development]
 jobs:
   test:
     timeout-minutes: 60
@@ -13,12 +13,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-      - name: Install dependencies
-        run: npm install -g pnpm && pnpm install
+
+      - name: Install dependencies and concurrently # to allow running dev and test together
+        run: npm install -g pnpm && pnpm install && pnpm install concurrently --save-dev
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
-      - name: Run Playwright tests
-        run: pnpm exec playwright test
+
+      - name: Start client and run Playwright tests
+        # run: npm run test:playwright
+        run: npm run dev & npx wait-on http://localhost:3000 && npx playwright test
+        env:
+          NODE_ENV: test
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
