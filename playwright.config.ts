@@ -29,7 +29,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
 
-    baseURL: process.env.CI ? "http:localhost:3000" : "http:localhost:8081",
+    baseURL: process.env.CI ? "http://127.0.0.1:3000" : "http:localhost:8081",
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -79,7 +79,7 @@ export default defineConfig({
     // reuseExistingServer: !process.env.CI,
     command: "npm run dev -- --port=3000", // Ensure the app runs on port 4000
     port: 3000,
-    timeout: 60 * 1000 * 5, // Wait up to 5 minutes for the server to start
+    timeout: 60 * 1000 * 2, // Wait up to 2 minutes for the server to start
     reuseExistingServer: !process.env.CI,
   },
 });
