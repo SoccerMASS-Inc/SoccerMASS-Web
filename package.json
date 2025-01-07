@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:playwright": "concurrently --kill-others \"npm run dev\" \"pnpm exec playwright test\""
   },
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.2",
