@@ -24,9 +24,7 @@ import { test, expect } from "@playwright/test";
 //   // await expect(page.getByRole("heading", { name: "Installation" })).toBeVisible();
 // });
 
-test("Header reacts to scroll events", async ({ page, baseURL }) => {
-  console.log(process.env.NODE_ENV, baseURL);
-
+test("Header reacts to scroll events", async ({ page }) => {
   await page.goto("/");
 
   // Wait for page to initialize

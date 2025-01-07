@@ -21,15 +21,10 @@ jobs:
         run: pnpm exec playwright install --with-deps
 
       - name: Start client and run Playwright tests
-        run: npm run test:playwright
+        # run: npm run test:playwright
+        run: npm run dev & npx wait-on http://localhost:3000 && npx playwright test
         env:
           NODE_ENV: test
-
-      # - name: Wait for server to start
-      #   run: npx wait-on http://127.0.0.1:3000
-
-      # - name: Run Playwright tests
-      #   run: pnpm exec playwright test
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
