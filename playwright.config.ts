@@ -72,14 +72,14 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    // command: "npm run start",
-    // url: "http://127.0.0.1:3000",
-    // reuseExistingServer: !process.env.CI,
-    command: "npm run dev -- --port=3000", // Ensure the app runs on port 4000
-    port: 3000,
-    timeout: 60 * 1000 * 2, // Wait up to 2 minutes for the server to start
-    reuseExistingServer: !process.env.CI,
-  },
+  // /* Run your local dev server before starting the tests */
+  // webServer: {
+  //   // command: "npm run start",
+  //   // url: "http://127.0.0.1:3000",
+  //   // reuseExistingServer: !process.env.CI,
+  //   command: "npm run dev -- --port=3000", // Ensure the app runs on port 4000
+  //   port: 3000,
+  //   timeout: 60 * 1000 * 2, // Wait up to 2 minutes for the server to start
+  //   reuseExistingServer: !process.env.CI,
+  // },
 });
