@@ -20,7 +20,7 @@ jobs:
         run: pnpm exec playwright install --with-deps
 
       - name: Start Next.js server
-        run: pnpm run dev -- --port=3000 &
+        run: npm run dev
         env:
           NODE_ENV: test
 
