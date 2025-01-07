@@ -14,16 +14,13 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Install dependencies
-        run: npm install -g pnpm && pnpm install
+      - name: Install dependencies and concurrently # to allow running dev and test together
+        run: npm install -g pnpm && pnpm install && pnpm install concurrently --save-dev
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
-      - name: Install concurrently # to allow running dev and test together
-        run: pnpm install concurrently --save-dev
-
-      - name: Start Next.js server and run Playwright tests
+      - name: Start client and run Playwright tests
         run: npm run test:playwright
         env:
           NODE_ENV: test
@@ -33,6 +30,7 @@ jobs:
 
       # - name: Run Playwright tests
       #   run: pnpm exec playwright test
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
