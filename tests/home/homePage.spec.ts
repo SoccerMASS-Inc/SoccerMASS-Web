@@ -1,30 +1,34 @@
 import { test, expect } from "@playwright/test";
 
-// test("Page is reachable", async ({ page }) => {
-//   await page.goto("/");
+test("Page is reachable", async ({ page }) => {
+  await page.goto("/");
 
-//   // Expect a title "to contain" a substring.
-//   await expect(page).toHaveTitle(/Wave Research/);
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Wave Research/);
 
-//   // const welcomeScreen = await page.getByTestId("welcome");
+  // // const welcomeScreen = await page.getByTestId("welcome");
+  // const logo = page.locator('[href="/fff"');
 
-//   // // await welcomeScreen.hover();
+  // await expect(logo).toBeVisible();
+  // await expect(logo).toHaveAttribute("title", "quaas hgdhgd");
 
-//   // const apihub = await page.getByTestId("apihub");
+  // // await welcomeScreen.hover();
 
-//   // await apihub.scrollIntoViewIfNeeded();
-//   // await apihub.click();
+  // const apihub = await page.getByTestId("apihub");
 
-//   // await page.goto("");
+  // await apihub.scrollIntoViewIfNeeded();
+  // await apihub.click();
 
-//   // Click the get started link.
-//   // await page.getByRole("link", { name: "Get started" }).click();
+  // await page.goto("");
 
-//   // // Expects page to have a heading with the name of Installation.
-//   // await expect(page.getByRole("heading", { name: "Installation" })).toBeVisible();
-// });
+  // Click the get started link.
+  // await page.getByRole("link", { name: "Get started" }).click();
 
-test("Header reacts to scroll events", async ({ page }) => {
+  // // Expects page to have a heading with the name of Installation.
+  // await expect(page.getByRole("heading", { name: "Installation" })).toBeVisible();
+});
+
+test("Header reacts to scroll events", async ({ page, isMobile }) => {
   await page.goto("/");
 
   // Wait for page to initialize
@@ -59,4 +63,7 @@ test("Header reacts to scroll events", async ({ page }) => {
   });
 
   await expect(stickyHeaderSelector, "Sticky Header should be hidden when users scroll to the top of the page").not.toBeVisible();
+
+  if (isMobile) {
+  }
 });
