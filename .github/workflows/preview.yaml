@@ -85,9 +85,9 @@ jobs:
             
           # Set Alias for the Deployment
           ALIAS_RESPONSE=$(curl --location --globoff \
-            "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=$secrets.VERCEL_ORG_ID" \
+            "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
             --header "Content-Type: application/json" \
-            --data "{ "alias": "preview.waverd.com" }")
+            --data '{"alias": "preview.waverd.com"}')
 
           echo "Alias Response: $ALIAS_RESPONSE"
 
