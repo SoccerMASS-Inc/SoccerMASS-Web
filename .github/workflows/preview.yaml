@@ -75,7 +75,7 @@ jobs:
             -H "Content-Type: application/json" \
             --data "{
               \"alias\": \"preview.waverd.com\",
-              \"deploymentId\": \"$CURR_DEPLOYMENT\",
+              \"deploymentId\": \"$CURR_DEPLOYMENT.id\",
               \"teamId\": \"${{ secrets.VERCEL_ORG_ID }}\"
             }")
 
