@@ -46,44 +46,45 @@ jobs:
       #       "https://api.vercel.com/v2/deployments/$CURR_DEPLOYMENT.id/aliases?teamId=${{secrets.VERCEL_ORG_ID}}" \
       #       --data-urlencode "alias=preview.waverd.com"
       - name: Deploy Project Artifacts to Vercel
-      run: |
-        # Example URL for illustration
-        DEPLOYMENT_URL="https://wave-research-7j18vu4qo-waverd.vercel.app"
-    
-        # Extract Deployment ID from the API
-        CURR_DEPLOYMENT=$(curl -s -G \
-          -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-          "https://api.vercel.com/v13/deployments" \
-          --data-urlencode "url=$DEPLOYMENT_URL" \
-          | jq -r '.deployments[0].id')
-    
-        echo "Deployment ID: $CURR_DEPLOYMENT"
-    
-        if [ -z "$CURR_DEPLOYMENT" ]; then
-          echo "Failed to retrieve deployment ID. Exiting..."
-          exit 1
-        fi
-    
-        # Set Alias for the Deployment
-        ALIAS_RESPONSE=$(curl -s -X POST \
-          -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-          "https://api.vercel.com/v2/now/aliases" \
-          -H "Content-Type: application/json" \
-          --data "{
-            \"alias\": \"preview.waverd.com\",
-            \"deploymentId\": \"$CURR_DEPLOYMENT\",
-            \"teamId\": \"${{ secrets.VERCEL_ORG_ID }}\"
-          }")
-    
-        echo "Alias Response: $ALIAS_RESPONSE"
-    
-        # Verify Alias Set
-        if echo "$ALIAS_RESPONSE" | grep -q '"error"'; then
-          echo "Failed to set alias. Response: $ALIAS_RESPONSE"
-          exit 1
-        fi
-    
-        echo "Alias set successfully for deployment: $CURR_DEPLOYMENT"
+        run: |
+          # Example URL for illustration
+          DEPLOYMENT_URL="https://wave-research-7j18vu4qo-waverd.vercel.app"
+
+          # Extract Deployment ID from the API
+          CURR_DEPLOYMENT=$(curl -s -G \
+            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+            "https://api.vercel.com/v13/deployments" \
+            --data-urlencode "url=$DEPLOYMENT_URL" \
+            | jq -r '.deployments[0].id')
+
+          echo "Deployment ID: $CURR_DEPLOYMENT"
+
+          if [ -z "$CURR_DEPLOYMENT" ]; then
+            echo "Failed to retrieve deployment ID. Exiting..."
+            exit 1
+          fi
+
+          # Set Alias for the Deployment
+          ALIAS_RESPONSE=$(curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+            "https://api.vercel.com/v2/now/aliases" \
+            -H "Content-Type: application/json" \
+            --data "{
+              \"alias\": \"preview.waverd.com\",
+              \"deploymentId\": \"$CURR_DEPLOYMENT\",
+              \"teamId\": \"${{ secrets.VERCEL_ORG_ID }}\"
+            }")
+
+          echo "Alias Response: $ALIAS_RESPONSE"
+
+          # Verify Alias Set
+          if echo "$ALIAS_RESPONSE" | grep -q '"error"'; then
+            echo "Failed to set alias. Response: $ALIAS_RESPONSE"
+            exit 1
+          fi
+
+          echo "Alias set successfully for deployment: $CURR_DEPLOYMENT"
+
 # name: Vercel Preview Deployment
 
 # # env:
