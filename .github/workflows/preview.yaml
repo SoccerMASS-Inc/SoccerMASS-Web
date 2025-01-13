@@ -72,13 +72,22 @@ jobs:
             exit 1
           fi
 
+          vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
+
+          # # Set Alias for the Deployment
+          # ALIAS_RESPONSE=$(curl -s -X POST \
+          #   -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+          #   "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=$secrets.VERCEL_ORG_ID" \
+          #   -H "Content-Type: application/json" \
+          #   --data "{
+            #     \"alias\": \"preview.waverd.com\"
+            #   }")
+            
           # Set Alias for the Deployment
-          ALIAS_RESPONSE=$(curl -s -X POST \
-            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-            "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=$secrets.VERCEL_ORG_ID" \
-            -H "Content-Type: application/json" \
+          ALIAS_RESPONSE=$(curl --location --globoff "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=$secrets.VERCEL_ORG_ID" \
+            --header "Content-Type: application/json" \
             --data "{
-              \"alias\": \"preview.waverd.com\"
+              "alias": "preview.waverd.com"
             }")
 
           echo "Alias Response: $ALIAS_RESPONSE"
