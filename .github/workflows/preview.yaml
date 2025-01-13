@@ -30,7 +30,7 @@ jobs:
           deployment_hostname=${deployment_url#*://}
 
           echo "Deployment URL: $deployment_hostname"
-          echo "Deployment URL: $intended_alias_hostname"
+          echo "Intended Alias: $intended_alias_hostname"
 
           deployment_id=$(curl -s -G \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
