@@ -24,6 +24,11 @@ jobs:
       #   run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: |
+          CLIENT_URL="${{ vars.CLIENT_URL }}"
+          URL_WITHOUT_PROTOCOL="${CLIENT_URL#*://}"
+          echo "URL without protocol: $URL_WITHOUT_PROTOCOL"
+
+
           # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           deployment_url="https://wave-research-8m1fgx0vo-waverd.vercel.app"
           intended_alias_hostname="${vars.CLIENT_URL#*://}"
@@ -62,4 +67,3 @@ jobs:
           fi
 
           echo "Alias set successfully for deployment: $deployment_id"
-        shell: bash
