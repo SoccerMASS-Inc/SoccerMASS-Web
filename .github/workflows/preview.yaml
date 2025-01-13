@@ -2,6 +2,9 @@ name: Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  # Setting an environment variable with the value of a configuration variable
+  env_var: ${{ vars.ENV_CONTEXT_VAR }}
+
 on:
   pull_request:
     # branches-ignore:
@@ -17,6 +20,11 @@ jobs:
         run: npm install -g pnpm
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+      - name: Delete Preview Deployment
+        run: vercel remove ${{ env.CLIENT_URL }}
+      - name: verify variables value
+        run: echo "$env.CLIENT_URL $env_var.CLIENT_URL Today is $env.CLIENT_URL !"
+
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
