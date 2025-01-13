@@ -4,7 +4,7 @@ on:
   # pull_request:
   #   branches: [development]
   workflow_run:
-    workflows: [Wait for Vercel Deployment]
+    workflows: [Vercel Preview Deployment]
     types:
       - completed
     # deployment_status:
