@@ -62,3 +62,4 @@ jobs:
           fi
 
           echo "Alias set successfully for deployment: $deployment_id"
+        shell: bash
