@@ -30,7 +30,8 @@ jobs:
         run: |
           url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
-
+      - name: delete alias
+        run: vercel alias rm preview.waverd.com
 # name: Vercel Preview Deployment
 
 # env:
