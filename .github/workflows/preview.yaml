@@ -63,20 +63,23 @@ jobs:
           input: ${{ steps.extract_branch.outputs.branch }}
           method: MD5
 
+      - name: Install dependencies
+        run: npm install -g pnpm
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        id: cache-npm
-        with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
+      # - name: Cache dependencies
+      #   uses: actions/cache@v2
+      #   id: cache-npm
+      #   with:
+      #     path: ~/.npm
+      #     key: npm-${{ hashFiles('package-lock.json') }}
+      #     restore-keys: npm-
 
-      - name: Install dependencies
-        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        run: npm ci --ignore-scripts
+      # - name: Install dependencies
+      #   if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+      #   run: npm ci --ignore-scripts
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
