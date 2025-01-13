@@ -25,7 +25,7 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          intended_alias_hostname=${vars.CLIENT_URL#*://}
+          intended_alias_hostname=$vars.CLIENT_URL#*://
           deployment_hostname=${deployment_url#*://}
 
           echo "Deployment URL: $deployment_hostname"
