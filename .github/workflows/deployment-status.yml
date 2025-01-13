@@ -33,7 +33,8 @@ jobs:
               --data-urlencode "projectId=$VERCEL_PROJECT" \
               --data-urlencode "limit=1")
 
-            STATUS=$(echo $RESPONSE | jq -r '.deployments[0].state')
+            # STATUS=$(echo $RESPONSE | jq -r '.deployments[0].state')
+            STATUS=$(echo $RESPONSE | jq -r '.deployments[0].status')
             DEPLOYMENT_URL=$(echo $RESPONSE | jq -r '.deployments[0].url')
 
             if [ "$STATUS" == "READY" ]; then
