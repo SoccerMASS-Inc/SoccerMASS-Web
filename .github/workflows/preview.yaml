@@ -12,60 +12,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - name: Install dependencies
-      #   run: npm install -g pnpm
+      - name: Install dependencies
+        run: npm install -g pnpm
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      # - name: delete alias
-      #   run: vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
-      # - name: Delete Preview Deployment
-      #   run: vercel remove ${{ vars.CLIENT_URL }} --token=${{ secrets.VERCEL_TOKEN }}
-      # - name: Build Project Artifacts
-      #   run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-      # - name: Deploy Project Artifacts to Vercel
-      #   # url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-      #   # vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
-      #   run: |
-      #     url=https://wave-research-7j18vu4qo-waverd.vercel.app
-      #     DEPLOYMENT_ID=$(curl -s -G \
-      #       -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
-      #       "https://api.vercel.com/v6/deployments/${url}")
-      #     echo "e: $DEPLOYMENT_ID ${DEPLOYMENT_ID}"
-      #     curl -s -X \
-      #       -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
-      #       "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID.id/aliases?teamId=${{secrets.VERCEL_ORG_ID}}" \
-      #       --data-urlencode "alias=preview.waverd.com"
+      - name: delete alias
+        run: vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: |
-          # Example URL for illustration
-          UNTRIMMED_DEP_URL=https://wave-research-7j18vu4qo-waverd.vercel.app
-          # DEPLOYMENT_URL=$(echo "$UNTRIMMED_DEP_URL" | sed 's~^https\?://~~')
-          DEPLOYMENT_URL=${UNTRIMMED_DEP_URL#*://}
+          deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          intended_alias_hostname=${vars.CLIENT_URL#*://}
+          deployment_hostname=${deployment_url#*://}
 
-          echo "Deployment url: $DEPLOYMENT_URL"
+          echo "Deployment URL: $deployment_hostname"
 
-          # Extract Deployment ID from the API
-          DEPLOYMENT_ID=$(curl -s -G \
+          deployment_id=$(curl -s -G \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-            "https://api.vercel.com/v6/deployments/$DEPLOYMENT_URL" | jq -r '.id')
+            "https://api.vercel.com/v6/deployments/$deployment_hostname" | jq -r '.id')
             
-          echo "Deployment ID: $DEPLOYMENT_ID"
+          echo "Deployment ID: $deployment_id"
 
-          if [ -z "$DEPLOYMENT_ID" ]; then
+          if [ -z "$deployment_id" ]; then
           echo "Failed to retrieve deployment ID. Exiting..."
           exit 1
           fi
-
-          vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
             
           # Set Alias for the Deployment
           ALIAS_RESPONSE=$(curl --location --globoff \
           -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-          "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
+          "https://api.vercel.com/v2/deployments/$deployment_id/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
           --header "Content-Type: application/json" \
-          --data '{"alias": "preview.waverd.com"}')
+          --data '{"alias": intended_alias_hostname}')
 
           echo "Alias Response: $ALIAS_RESPONSE"
 
@@ -75,4 +56,4 @@ jobs:
             exit 1
           fi
 
-          echo "Alias set successfully for deployment: $DEPLOYMENT_ID"
+          echo "Alias set successfully for deployment: $deployment_id"
