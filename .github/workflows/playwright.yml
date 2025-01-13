@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [development]
   workflow_run:
-    workflows: [Vercel Preview Deployment]
+    workflows: [Vercel]
     types:
       - completed
     # deployment_status:
