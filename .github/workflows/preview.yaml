@@ -53,9 +53,12 @@ jobs:
           # Extract Deployment ID from the API
           CURR_DEPLOYMENT=$(curl -s -G \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-            "https://api.vercel.com/v13/deployments" \
-            --data-urlencode "url=$DEPLOYMENT_URL" \
-            | jq -r '.deployments[0].id')
+            "https://api.vercel.com/v6/deployments/$DEPLOYMENT_URL")
+            # --data-urlencode "url=$DEPLOYMENT_URL" \
+            # | jq -r '.deployments[0].id')
+            # # "https://api.vercel.com/v13/deployments" \
+            # # --data-urlencode "url=$DEPLOYMENT_URL" \
+            # # | jq -r '.deployments[0].id')
 
           echo "Deployment ID: $CURR_DEPLOYMENT"
 
