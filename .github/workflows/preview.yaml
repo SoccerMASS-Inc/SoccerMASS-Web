@@ -51,6 +51,8 @@ jobs:
           UNTRIMMED_DEP_URL=https://wave-research-7j18vu4qo-waverd.vercel.app
           DEPLOYMENT_URL="$UNTRIMMED_DEP_URL" | tr " " "\n"  | sed s~^https\?://~~
 
+          echo "Deployment IDq: $DEPLOYMENT_URL"
+
           # Extract Deployment ID from the API
           CURR_DEPLOYMENT=$(curl -s -G \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
