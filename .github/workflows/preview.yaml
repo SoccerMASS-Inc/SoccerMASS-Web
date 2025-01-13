@@ -54,14 +54,15 @@ jobs:
           # Extract Deployment ID from the API
           CURR_DEPLOYMENT=$(curl -s -G \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-            "https://api.vercel.com/v6/deployments/$DEPLOYMENT_URL")
+            "https://api.vercel.com/v6/deployments/$DEPLOYMENT_URL" 
+            | jq -r '.deployments[0].id')
             # --data-urlencode "url=$DEPLOYMENT_URL" \
             # | jq -r '.deployments[0].id')
             # # "https://api.vercel.com/v13/deployments" \
             # # --data-urlencode "url=$DEPLOYMENT_URL" \
             # # | jq -r '.deployments[0].id')
 
-          echo "Deployment ID: $CURR_DEPLOYMENT.id"
+          echo "Deployment ID: $CURR_DEPLOYMENT"
 
           if [ -z "$CURR_DEPLOYMENT" ]; then
             echo "Failed to retrieve deployment ID. Exiting..."
@@ -75,7 +76,7 @@ jobs:
             -H "Content-Type: application/json" \
             --data "{
               \"alias\": \"preview.waverd.com\",
-              \"deploymentId\": \"$CURR_DEPLOYMENT.id\",
+              \"deploymentId\": \"$CURR_DEPLOYMENT\",
               \"teamId\": \"${{ secrets.VERCEL_ORG_ID }}\"
             }")
 
