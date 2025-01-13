@@ -42,7 +42,7 @@ jobs:
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
             "https://api.vercel.com/v6/deployments/$url")
 
-          echo $CURR_DEPLOYMENT
+          echo $(CURR_DEPLOYMENT)
 
 
           curl -s -X \
