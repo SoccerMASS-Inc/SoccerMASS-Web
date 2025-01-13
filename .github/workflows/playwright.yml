@@ -3,13 +3,23 @@ name: Playwright Tests
 on:
   pull_request:
     branches: [development]
-  deployment_status:
+  workflow_run:
+    workflows: [Vercel Preview Deployment]
+    types:
+      - completed
+    # deployment_status:
 jobs:
-  test:
-    if: github.event.deployment_status.state == 'success'
-    timeout-minutes: 60
+  on-success:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
+      - run: echo 'The triggering workflow passed'
+
+        # test:
+        # if: github.event.deployment_status.state == 'success'
+        timeout-minutes: 60
+      # runs-on: ubuntu-latest
+      # steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -32,6 +42,11 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 7
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - run: echo 'The triggering workflow failed'
 #
 # # ? Run test locally on github
 # name: Playwright Tests
