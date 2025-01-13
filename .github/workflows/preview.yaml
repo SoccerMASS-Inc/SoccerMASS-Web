@@ -39,9 +39,8 @@ jobs:
           url="https://wave-research-7j18vu4qo-waverd.vercel.app"
           CURR_DEPLOYMENT=$(curl -s -G \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
-            "https://api.vercel.com/v6/deployments/${url}" \
-            --data-urlencode "alias=preview.waverd.com")
-          curl -s -G \
+            "https://api.vercel.com/v6/deployments/${url}")
+          curl -s -X \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
             "https://api.vercel.com/v2/deployments/$CURR_DEPLOYMENT.id/aliases?teamId=${{secrets.VERCEL_ORG_ID}}" \
             --data-urlencode "alias=preview.waverd.com"
