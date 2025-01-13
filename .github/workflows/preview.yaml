@@ -28,9 +28,7 @@ jobs:
           # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           deployment_url="https://wave-research-8m1fgx0vo-waverd.vercel.app"
           intended_alias_hostname="${CLIENT_URL#*://}"
-          URL_WITHOUT_PROTOCOLa="${{ vars.CLIENT_URL#*:// }}"
           URL_WITHOUT_PROTOCOL=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~')
-          echo "Intendedaaaaa Alias: $URL_WITHOUT_PROTOCOLa"
           echo "333Intendedaaaaa Alias: $URL_WITHOUT_PROTOCOL"
           deployment_hostname=${deployment_url#*://}
           echo "Deployment URL: $deployment_hostname"
