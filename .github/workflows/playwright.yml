@@ -1,8 +1,8 @@
 # # ? Run test on preview
 name: Playwright Tests
 on:
-  pull_request:
-    branches: [development]
+  # pull_request:
+  #   branches: [development]
   workflow_run:
     workflows: [Vercel]
     types:
