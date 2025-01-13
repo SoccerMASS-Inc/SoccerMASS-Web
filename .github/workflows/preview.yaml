@@ -35,7 +35,15 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
+          # vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
+          CURR_DEPLOYMENT = $(curl -s -G \
+            -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
+            "https://api.vercel.com/v6/deployments/${url}" 
+            --data-urlencode "alias=preview.waverd.com")
+          curl -s -G \
+            -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
+            "https://api.vercel.com/v2/deployments/$CURR_DEPLOYMENT.id/aliases?teamId=${{secrets.VERCEL_ORG_ID}}" \
+            --data-urlencode "alias=preview.waverd.com"
 
 # name: Vercel Preview Deployment
 
