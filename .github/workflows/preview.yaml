@@ -58,7 +58,7 @@ jobs:
           exit 1
           fi
 
-          vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
+          # vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
             
           # Set Alias for the Deployment
           ALIAS_RESPONSE=$(curl --location --globoff \
