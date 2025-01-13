@@ -37,14 +37,10 @@ jobs:
         # vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
         run: |
           url=https://wave-research-7j18vu4qo-waverd.vercel.app
-
           CURR_DEPLOYMENT=$(curl -s -G \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
             "https://api.vercel.com/v6/deployments/${url}")
-
           echo "e: $CURR_DEPLOYMENT ${CURR_DEPLOYMENT}"
-
-
           curl -s -X \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
             "https://api.vercel.com/v2/deployments/$CURR_DEPLOYMENT.id/aliases?teamId=${{secrets.VERCEL_ORG_ID}}" \
