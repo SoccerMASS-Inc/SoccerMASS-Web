@@ -61,7 +61,7 @@ jobs:
             # # --data-urlencode "url=$DEPLOYMENT_URL" \
             # # | jq -r '.deployments[0].id')
 
-          echo "Deployment ID: $CURR_DEPLOYMENT"
+          echo "Deployment ID: $CURR_DEPLOYMENT.id"
 
           if [ -z "$CURR_DEPLOYMENT" ]; then
             echo "Failed to retrieve deployment ID. Exiting..."
