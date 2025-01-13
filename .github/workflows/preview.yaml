@@ -44,7 +44,7 @@ jobs:
 
           curl -s -X \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
-            "https://api.vercel.com/v2/deployments/${{CURR_DEPLOYMENT.id}}/aliases?teamId=${{secrets.VERCEL_ORG_ID}}" \
+            "https://api.vercel.com/v2/deployments/${CURR_DEPLOYMENT.id}/aliases?teamId=${{secrets.VERCEL_ORG_ID}}" \
             --data-urlencode "alias=preview.waverd.com"
 
 # name: Vercel Preview Deployment
