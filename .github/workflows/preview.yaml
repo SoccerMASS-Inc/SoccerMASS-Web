@@ -77,7 +77,7 @@ jobs:
             "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=$secrets.VERCEL_ORG_ID" \
             -H "Content-Type: application/json" \
             --data "{
-              \"alias\": \"preview.waverd.com\" \",
+              \"alias\": \"preview.waverd.com\" \"
               # \"deploymentId\": \"$DEPLOYMENT_ID\",
               # \"teamId\": \"${{ secrets.VERCEL_ORG_ID }}\"
             }")
