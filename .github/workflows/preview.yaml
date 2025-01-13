@@ -49,7 +49,7 @@ jobs:
         run: |
           # Example URL for illustration
           UNTRIMMED_DEP_URL=https://wave-research-7j18vu4qo-waverd.vercel.app
-          DEPLOYMENT_URL="$UNTRIMMED_DEP_URL | sed s~^https\?://~~
+          DEPLOYMENT_URL="$UNTRIMMED_DEP_URL | sed s~^https\?://~~"
 
           echo "Deployment IDq: $DEPLOYMENT_URL"
 
