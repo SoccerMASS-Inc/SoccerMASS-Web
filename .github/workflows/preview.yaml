@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install -g pnpm
+      # - name: Install dependencies
+      #   run: npm install -g pnpm
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
@@ -28,17 +28,18 @@ jobs:
       #   run: vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
       # - name: Delete Preview Deployment
       #   run: vercel remove ${{ vars.CLIENT_URL }} --token=${{ secrets.VERCEL_TOKEN }}
-      - name: Build Project Artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      # - name: Build Project Artifacts
+      #   run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       # - name: Deploy Project Artifacts to Vercel
       #   run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: |
-          url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          # url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           # vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
+          url = https://wave-research-7j18vu4qo-waverd.vercel.app
           CURR_DEPLOYMENT = $(curl -s -G \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
-            "https://api.vercel.com/v6/deployments/${url}" 
+            "https://api.vercel.com/v6/deployments/${url}" \
             --data-urlencode "alias=preview.waverd.com")
           curl -s -G \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
