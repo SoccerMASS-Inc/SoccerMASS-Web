@@ -33,9 +33,9 @@ jobs:
       # - name: Deploy Project Artifacts to Vercel
       #   run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
+        # url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+        # vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
         run: |
-          # url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          # vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
           url = https://wave-research-7j18vu4qo-waverd.vercel.app
           CURR_DEPLOYMENT = $(curl -s -G \
             -H "Authorization: Bearer ${{secrets.VERCEL_TOKEN}}" \
