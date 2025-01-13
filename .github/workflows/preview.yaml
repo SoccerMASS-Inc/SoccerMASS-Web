@@ -12,28 +12,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      # - name: Install dependencies
-      #   run: npm install -g pnpm
+      - name: Install dependencies
+        run: npm install -g pnpm
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       # - name: delete alias
       #   run: vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
-      # - name: Build Project Artifacts
-      #   run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
         run: |
-          CLIENT_URL="${{ vars.CLIENT_URL }}"          
-          # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          deployment_url="https://wave-research-8m1fgx0vo-waverd.vercel.app"
-          intended_alias_hostname="${CLIENT_URL#*://}"
-          URL_WITHOUT_PROTOCOL=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~')
-          echo "333Intendedaaaaa Alias: $URL_WITHOUT_PROTOCOL"
+          deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          intended_alias_hostname=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~')
           deployment_hostname=${deployment_url#*://}
+
           echo "Deployment URL: $deployment_hostname"
           echo "Intended Alias: $intended_alias_hostname"
-
 
           deployment_id=$(curl -s -G \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
