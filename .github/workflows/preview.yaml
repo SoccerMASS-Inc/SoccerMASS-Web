@@ -48,7 +48,7 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           # Example URL for illustration
-          UNTRIMMED_DEP_URL="https://wave-research-7j18vu4qo-waverd.vercel.app"
+          UNTRIMMED_DEP_URL=https://wave-research-7j18vu4qo-waverd.vercel.app
           DEPLOYMENT_URL="$UNTRIMMED_DEP_URL" | tr " " "\n"  | sed s~^https\?://~~
 
           # Extract Deployment ID from the API
