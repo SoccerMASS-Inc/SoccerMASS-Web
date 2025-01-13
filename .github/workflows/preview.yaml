@@ -36,18 +36,8 @@ jobs:
           vercel alias --token=${{ secrets.VERCEL_TOKEN }} set "$url" preview.waverd.com
       # - name: delete alias
       #   run: vercel alias rm preview.waverd.com
-      - name: Set alias
-        uses: actions/github-script@v6
-        env:
-          previewUrl: ${{ steps.deploy.outputs.preview-url }}
-          aliasDomain: [my-alias-domain]
-          vercelToken: [my-vercel-token]
-          vercelTeamId: [my-vercel-team-id]
-        with:
-          script: |
-            const setAlias = require('./.github/scripts/set-alias.js');
-            await setAlias({ github, context });
-      # name: Vercel Preview Deployment
+
+# name: Vercel Preview Deployment
 
 # # env:
 # #   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
