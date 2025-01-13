@@ -60,19 +60,19 @@ jobs:
 
           vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
             
-          # # Set Alias for the Deployment
-          # ALIAS_RESPONSE=$(curl --location --globoff \
-          # -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-          # "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
-          # --header "Content-Type: application/json" \
-          # --data '{"alias": "preview.waverd.com"}')
+          # Set Alias for the Deployment
+          ALIAS_RESPONSE=$(curl --location --globoff \
+          -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+          "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
+          --header "Content-Type: application/json" \
+          --data '{"alias": "preview.waverd.com"}')
 
-          # echo "Alias Response: $ALIAS_RESPONSE"
+          echo "Alias Response: $ALIAS_RESPONSE"
 
-          # # Verify Alias Set
-          # if echo "$ALIAS_RESPONSE" | grep -q '"error"'; then
-          #   echo "Failed to set alias. Response: $ALIAS_RESPONSE"
-          #   exit 1
-          # fi
+          # Verify Alias Set
+          if echo "$ALIAS_RESPONSE" | grep -q '"error"'; then
+            echo "Failed to set alias. Response: $ALIAS_RESPONSE"
+            exit 1
+          fi
 
           echo "Alias set successfully for deployment: $DEPLOYMENT_ID"
