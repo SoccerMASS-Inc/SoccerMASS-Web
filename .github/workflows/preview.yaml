@@ -44,7 +44,7 @@ jobs:
           # Set Alias for the Deployment
           ALIAS_RESPONSE=$(curl --location --globoff \
           -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-          "https://api.vercel.com/v2/deployments/$deployment_id/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
+          "https://api.vercel.com/v2/deployments/$deployment_id/aliases?teamId=$secrets.VERCEL_ORG_ID" \
           --header "Content-Type: application/json" \
           --data '{"alias": intended_alias_hostname}')
 
