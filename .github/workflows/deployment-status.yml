@@ -22,7 +22,7 @@ jobs:
       - name: Get Deployment Status
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # Add your Vercel token to GitHub Secrets
-          VERCEL_PROJECT: your-vercel-project-name # Replace with your project name
+          VERCEL_PROJECT: wave-research # Replace with your project name
         run: |
           echo "Waiting for Vercel deployment to complete..."
           DEPLOYMENT_URL=""
