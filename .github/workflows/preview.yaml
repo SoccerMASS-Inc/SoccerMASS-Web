@@ -49,9 +49,10 @@ jobs:
         run: |
           # Example URL for illustration
           UNTRIMMED_DEP_URL=https://wave-research-7j18vu4qo-waverd.vercel.app
-          DEPLOYMENT_URL=$(echo "$UNTRIMMED_DEP_URL" | sed 's~^https\?://~~')
+          # DEPLOYMENT_URL=$(echo "$UNTRIMMED_DEP_URL" | sed 's~^https\?://~~')
+          DEPLOYMENT_URL=${UNTRIMMED_DEP_URL#*://}
 
-          echo "Deployment IDq: $DEPLOYMENT_URL"
+          echo "Deployment url: $DEPLOYMENT_URL"
 
           # Extract Deployment ID from the API
           DEPLOYMENT_ID=$(curl -s -G \
@@ -77,9 +78,7 @@ jobs:
             "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=$secrets.VERCEL_ORG_ID" \
             -H "Content-Type: application/json" \
             --data "{
-              \"alias\": \"preview.waverd.com\" \"
-              # \"deploymentId\": \"$DEPLOYMENT_ID\",
-              # \"teamId\": \"${{ secrets.VERCEL_ORG_ID }}\"
+              \"alias\": \"preview.waverd.com\"
             }")
 
           echo "Alias Response: $ALIAS_RESPONSE"
