@@ -20,8 +20,6 @@ jobs:
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - name: verify variables value
-        run: echo  CLIENT_URL is ${{vars.CLIENT_URL}} !"
       - name: Delete Preview Deployment
         run: vercel remove ${{ vars.CLIENT_URL }} --token=${{ secrets.VERCEL_TOKEN }}
         # - name: Build Project Artifacts
