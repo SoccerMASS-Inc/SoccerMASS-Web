@@ -26,8 +26,8 @@ jobs:
         run: |
           # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           deployment_url="https://wave-research-8m1fgx0vo-waverd.vercel.app"
-          intended_alias_hostname="$vars.CLIENT_URL#*://"
-          intended_alias_hostnamea="$vars.CLIENT_URL"
+          intended_alias_hostname="${vars.CLIENT_URL#*://}"
+          intended_alias_hostnamea="${vars.CLIENT_URL}"
           deployment_hostname=${deployment_url#*://}
 
           echo "Deployment URL: $deployment_hostname"
