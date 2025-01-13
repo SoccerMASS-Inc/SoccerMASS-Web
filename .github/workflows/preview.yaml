@@ -64,12 +64,12 @@ jobs:
             # # "https://api.vercel.com/v13/deployments" \
             # # --data-urlencode "url=$DEPLOYMENT_URL" \
             # # | jq -r '.deployments[0].id')
-
+            
           echo "Deployment ID: $DEPLOYMENT_ID"
 
           if [ -z "$DEPLOYMENT_ID" ]; then
-            echo "Failed to retrieve deployment ID. Exiting..."
-            exit 1
+          echo "Failed to retrieve deployment ID. Exiting..."
+          exit 1
           fi
 
           # vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
@@ -83,8 +83,9 @@ jobs:
             #     \"alias\": \"preview.waverd.com\"
             #   }")
             
-          # Set Alias for the Deployment
-          ALIAS_RESPONSE=$(curl --location --globoff \
+            # Set Alias for the Deployment
+            ALIAS_RESPONSE=$(curl --location --globoff \
+            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
             "https://api.vercel.com/v2/deployments/$DEPLOYMENT_ID/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
             --header "Content-Type: application/json" \
             --data '{"alias": "preview.waverd.com"}')
