@@ -1,8 +1,7 @@
-# # ? Run test on preview
 name: Playwright Tests
 on:
   workflow_run:
-    workflows: [Vercel Preview Deployment]
+    workflows: ["Vercel Preview Deployment"]
     types:
       - completed
 jobs:
