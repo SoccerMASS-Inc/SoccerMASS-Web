@@ -2,6 +2,7 @@ name: "Run Playwright Tests"
 
 env:
   BASE_DOMAIN: ${{ vars.BASE_DOMAIN }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
@@ -78,9 +79,10 @@ jobs:
 
       - id: set-preview-url
         run: |
+          echo "VERCEL_TOKEN: $VERCEL_TOKEN"
           intended_alias_hostname="8m1fgx0vo.waverd.com"
           preview_url="https://${intended_alias_hostname}"
-          echo "Preview URL1: "
+          echo "Preview URL: $preview_url"
           # echo "{preview}={$preview_url}" >> $GITHUB_OUTPUT
           # echo "PREVIEW_URL1=$preview_url" >> $GITHUB_ENV
           # - name: Save URL to artifact
@@ -138,12 +140,13 @@ jobs:
           name: preview-url
       - name: Load URL
         run: echo "PREVIEW_URL=$(cat preview_url.txt)" >> $GITHUB_ENV
-
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        # run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=preview --token=$VERCEL_TOKEN
       - name: Delete Vercel Domain Alias
-        env:
-          NODE_ENV: preview
         run: |
-          echo "PREVIEW_URL $PREVIEW_URL"
-      # - id: delete-preview-url
-      #   run: |
-      #     vercel alias rm $PREVIEW_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "Alias to be deleted is $PREVIEW_URL"
+          # vercel alias rm $PREVIEW_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
+          vercel alias rm $PREVIEW_URL --token=$VERCEL_TOKEN --yes
