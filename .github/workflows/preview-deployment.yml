@@ -54,7 +54,7 @@ jobs:
           "https://api.vercel.com/v4/aliases/$intended_alias_hostname?projectId=$VERCEL_PROJECT_ID&teamId=$VERCEL_ORG_ID" | jq -r '.alias')
 
           if [[ "$current_alias_hostname" == "$intended_alias_hostname" ]]; then
-            vercel alias rm preview.waverd.com --token=${{ secrets.VERCEL_TOKEN }} --yes
+            vercel alias rm $intended_alias_hostname --token=${{ secrets.VERCEL_TOKEN }} --yes
           fi
 
           echo "Current Alias: $current_alias_hostname"
