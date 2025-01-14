@@ -29,20 +29,19 @@ jobs:
         run: |
           deployment_url="https://wave-research-8m1fgx0vo-waverd.vercel.app"
           deployment_hostname=${deployment_url#*://}
+          deployment_url_ref=$(echo "$deployment_url" | awk -F'-' '{print $3}')
+          intended_alias_hostname="${deployment_url_ref}${BASE_DOMAIN}"
 
           # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          # intended_alias_hostname=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~')
+          # intended_alias_hostname=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~') # remove https
 
           deployment_id=$(curl -s -G \
           -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
           "https://api.vercel.com/v6/deployments/$deployment_hostname" | jq -r '.id')
 
-
-          deployment_idw=wewew
-          intended_alias_hostname="${deployment_idw}${BASE_DOMAIN}"
-
           echo "Deployment ID: $deployment_id"
           echo "Deployment URL: $deployment_hostname"
+          echo "Deployment URL Ref: $deployment_url_ref"
           echo "Intended Alias: $intended_alias_hostname"
 
           if [ -z "$deployment_id" ]; then
@@ -57,23 +56,27 @@ jobs:
 
           if [[ "$current_alias_hostname" == "$intended_alias_hostname" ]]; then
             vercel alias rm $intended_alias_hostname --token=${{ secrets.VERCEL_TOKEN }} --yes
-          fi
-
-          echo "Current Alias: $current_alias_hostname"
-
-          # Set Alias for the Deployment
-          ALIAS_RESPONSE=$(curl --location --globoff \
+            fi
+            
+            
+            echo "Current Alias: $current_alias_hostname"
+            
+            # Set Alias for the Deployment
+            ALIAS_RESPONSE=$(curl --location --globoff \
             -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
             "https://api.vercel.com/v2/deployments/$deployment_id/aliases?teamId=${{ secrets.VERCEL_ORG_ID }}" \
             --header "Content-Type: application/json" \
             --data "{\"alias\": \"$intended_alias_hostname\"}")
-
-          echo "Alias Response: $ALIAS_RESPONSE"
-
-          # Verify Alias Set
-          if echo "$ALIAS_RESPONSE" | grep -q '"error"'; then
+            
+            echo "Alias Response: $ALIAS_RESPONSE"
+            
+            # Verify Alias Set
+            if echo "$ALIAS_RESPONSE" | grep -q '"error"'; then
             echo "Failed to set alias. Response: $ALIAS_RESPONSE"
             exit 1
           fi
 
           echo "Alias set successfully for deployment: $deployment_id"
+
+          vercel alias rm $intended_alias_hostname --token=${{ secrets.VERCEL_TOKEN }} --yes
+          vercel alias rm wewew --token=${{ secrets.VERCEL_TOKEN }} --yes
