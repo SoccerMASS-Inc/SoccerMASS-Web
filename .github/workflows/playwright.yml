@@ -13,8 +13,8 @@ jobs:
   preview-deployment:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    outputs:
-      preview_url: ${{ steps.set-output.outputs.preview_url }}
+    # outputs:
+    #   preview_url: ${{ steps.set-output.outputs.preview_url }}
     steps:
       - uses: actions/checkout@v4
         # - name: Install dependencies
@@ -81,7 +81,8 @@ jobs:
           intended_alias_hostname="8m1fgx0vo.waverd.com"
           preview_url="https://${intended_alias_hostname}"
           echo "Preview URL: $preview_url"
-          echo "::set-output name=preview_url::$preview_url"
+          echo "PREVIEW_URL=$preview_url" >> $GITHUB_ENV
+          echo "The value of PREVIEW_URL is $PREVIEW_URL"
 
   playwright-tests:
     timeout-minutes: 5
@@ -101,7 +102,7 @@ jobs:
       - name: Run test #Wait for deployment to complete and run Playwright tests
         env:
           NODE_ENV: preview
-          PREVIEW_URL: ${{ needs.preview-deployment.outputs.preview_url }}
+          # PREVIEW_URL: ${{ needs.preview-deployment.outputs.preview_url }}
         run: |
           echo "PREVIEW_URL: $PREVIEW_URL"
           echo "Playwright test - BASE_URL - $PREVIEW_URL"
