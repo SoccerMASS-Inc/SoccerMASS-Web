@@ -1,14 +1,9 @@
 import type { NextConfig } from "next";
 
-const [preview, development, production] = ["https://dev.waverd.com", "http://localhost:8081", "https://api.waverd.com"];
-
-type n_env = "preview" | "development" | "production";
-
-const STABLE_VERSION = "/v1",
-  INIT_NODE_ENV = process.env.NODE_ENV as n_env,
-  DOMAINS = ["apihub", "games", "console", "accounts"],
-  SERVER_ENV_URLS = { preview, development, production },
-  BASE_URL = SERVER_ENV_URLS[INIT_NODE_ENV] + STABLE_VERSION;
+const DOMAINS = ["apihub", "games", "console", "accounts"],
+  [STABLE_VERSION, NODE_ENV] = ["/v1", "process.env.NODE_ENV"],
+  [preview, development, production] = ["https://dev.waverd.com", "http://localhost:8081", "https://api.waverd.com"],
+  BASE_URL = (NODE_ENV === "production" ? production : NODE_ENV === "development" ? development : preview) + STABLE_VERSION;
 
 const nextConfig: NextConfig = {
   async redirects() {

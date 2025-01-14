@@ -8,7 +8,7 @@ env:
 
 on:
   pull_request:
-    branches: [main, development]
+    branches: [development]
 
 jobs:
   preview-deployment:
@@ -103,8 +103,7 @@ jobs:
       - name: Install dependencies
         run: npm install -g pnpm && pnpm install
       - name: Install Playwright Browsers
-        # run: pnpm exec playwright install --with-deps
-        run: npx playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps
       - name: Run test #Wait for deployment to complete and run Playwright tests
         env:
           NODE_ENV: preview
