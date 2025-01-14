@@ -13,8 +13,8 @@ jobs:
   preview-deployment:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    # outputs:
-    #   preview_url: ${{ steps.set-output.outputs.preview_url }}
+    outputs:
+      preview_url: ${{ steps.set-preview-url.outputs.preview_url }}
     steps:
       - uses: actions/checkout@v4
         # - name: Install dependencies
@@ -80,13 +80,20 @@ jobs:
         run: |
           intended_alias_hostname="8m1fgx0vo.waverd.com"
           preview_url="https://${intended_alias_hostname}"
-          echo "Preview URL: $preview_url"
-          echo "PREVIEW_URL=$preview_url" >> $GITHUB_ENV
-          echo "The value of PREVIEW_URL is $PREVIEW_URL"
+          echo "Preview URL1: $preview_url"
+          echo "PREVIEW_URL1=$preview_url" >> $GITHUB_ENV
+          echo "{preview}={$preview_url}" >> $GITHUB_OUTPUT
+
+      - id: get-env
+        run: |
+          echo "The value of PREVIEW_URL is $PREVIEW_URL1"
+          echo "The value of PREVIEW_URL is $preview_url"
 
   playwright-tests:
     timeout-minutes: 5
     runs-on: ubuntu-latest
+    outputs:
+      preview_url: ${{ steps.set-preview-url.outputs.preview_url }}
     needs: preview-deployment
     steps:
       - uses: actions/checkout@v4
@@ -98,22 +105,25 @@ jobs:
       - name: Install Playwright Browsers
         # run: pnpm exec playwright install --with-deps
         run: npx playwright install --with-deps chromium
-
+      - name: Pass URL to post playwright
+        id: pass-url
+        run: |
+          echo "{preview}={$preview_url}" >> $GITHUB_OUTPUT
       - name: Run test #Wait for deployment to complete and run Playwright tests
         env:
           NODE_ENV: preview
-          # PREVIEW_URL: ${{ needs.preview-deployment.outputs.preview_url }}
+          PREVIEW_URL: ${{ needs.preview-deployment.outputs.preview_url }}
         run: |
           echo "PREVIEW_URL: $PREVIEW_URL"
           echo "Playwright test - BASE_URL - $PREVIEW_URL"
-          npx wait-on https://$PREVIEW_URL && PREVIEW_URL=https://$PREVIEW_URL npx playwright test
+          # npx wait-on https://$PREVIEW_URL && PREVIEW_URL=https://$PREVIEW_URL npx playwright test
 
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
+      # - uses: actions/upload-artifact@v4
+      #   if: ${{ !cancelled() }}
+      #   with:
+      #     name: playwright-report
+      #     path: playwright-report/
+      #     retention-days: 30
 
   post-playwright-tests:
     timeout-minutes: 3
@@ -121,6 +131,9 @@ jobs:
     needs: playwright-tests
     steps:
       - name: Delete Vercel Domain Alias
+        env:
+          NODE_ENV: preview
+          PREVIEW_URL: ${{ needs.playwright-tests.outputs.preview_url }}
         run: |
           echo "PREVIEW_URL $PREVIEW_URL"
       # - id: delete-preview-url
