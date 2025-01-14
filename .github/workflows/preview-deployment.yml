@@ -33,11 +33,11 @@ jobs:
           # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
           # intended_alias_hostname=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~')
 
-          deployment_id=$(curl -s -G \
-          -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-          "https://api.vercel.com/v6/deployments/$deployment_hostname" | jq -r '.id')
+          # deployment_id=$(curl -s -G \
+          # -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+          # "https://api.vercel.com/v6/deployments/$deployment_hostname" | jq -r '.id')
 
-
+          deployment_id=weree
           intended_alias_hostname="${deployment_id}${BASE_DOMAIN}"
 
           echo "Deployment ID: $deployment_id"
