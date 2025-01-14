@@ -15,7 +15,7 @@ jobs:
       group: pull-request-${{ github.ref_name }}
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install dependencies
         run: npm install -g pnpm
       - name: Install Vercel CLI
@@ -74,9 +74,9 @@ jobs:
           echo "Alias set successfully for deployment: $deployment_id"
       - name: Trigger next workflow
         if: success()
-        uses: peter-evans/repository-dispatch@v1
+        uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.REPO_GHA_PAT }}
           repository: ${{ github.repository }}
-          event-type: trigger-playwright-test
+          event-type: playwright-tests
           client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

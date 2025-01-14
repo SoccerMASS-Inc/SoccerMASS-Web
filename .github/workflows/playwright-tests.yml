@@ -8,7 +8,7 @@ name: "Playwright Tests"
 
 on:
   repository_dispatch:
-    types: [trigger-playwright-test]
+    types: [playwright-tests]
 
 # permissions:
 #   actions: read
