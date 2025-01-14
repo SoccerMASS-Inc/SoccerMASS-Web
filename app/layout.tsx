@@ -22,6 +22,8 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const [theme, setTheme] = useState<Theme>("light"),
     themeHandler = (theme: Theme) => setTheme(theme);
 
+  console.log(process.env.VERCEL_ENV, process.env.NODE_ENV, "hdhd");
+
   return (
     <html lang="en" className={`${merienda.className}  ${robotoSlab.className}`}>
       <body>

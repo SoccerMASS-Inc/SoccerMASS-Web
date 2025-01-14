@@ -22,7 +22,6 @@ const HomePage = () => (
     <ManagerContainer />
     <ApiHub />
     <FooterContainer />
-    {process.env.NODE_ENV}
     {/* <RefreshHome /> */}
   </main>
 );

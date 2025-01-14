@@ -8,7 +8,7 @@ env:
 
 on:
   pull_request:
-    branches: [development]
+    branches: [main, development]
 
 jobs:
   preview-deployment:
