@@ -93,7 +93,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     outputs:
-      preview_url: ${{ steps.set-preview-url.outputs.preview_url }}
+      preview_url: ${{ steps.pass-url.outputs.preview_url }}
     needs: preview-deployment
     steps:
       - uses: actions/checkout@v4
@@ -115,6 +115,7 @@ jobs:
           PREVIEW_URL: ${{ needs.preview-deployment.outputs.preview_url }}
         run: |
           echo "PREVIEW_URL: $PREVIEW_URL"
+          echo "PREVIEW_URL1: $PREVIEW_URL1"
           echo "Playwright test - BASE_URL - $PREVIEW_URL"
           # npx wait-on https://$PREVIEW_URL && PREVIEW_URL=https://$PREVIEW_URL npx playwright test
 
@@ -136,6 +137,7 @@ jobs:
           PREVIEW_URL: ${{ needs.playwright-tests.outputs.preview_url }}
         run: |
           echo "PREVIEW_URL $PREVIEW_URL"
+          echo "PREVIEW_URLs $PREVIEW_URL1"
       # - id: delete-preview-url
       #   run: |
       #     vercel alias rm $PREVIEW_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
