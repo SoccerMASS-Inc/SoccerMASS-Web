@@ -11,10 +11,8 @@ on:
 jobs:
   task-1:
     runs-on: ubuntu-latest
-    outputs:
-      pr_number: ${{ github.event.pull_request.number }}
     concurrency:
-      group: pr-${{ github.event.pull_request.number }}
+      group: pull-request-${{ github.ref_name }}
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v2
@@ -74,3 +72,11 @@ jobs:
           fi
 
           echo "Alias set successfully for deployment: $deployment_id"
+      - name: Trigger next workflow
+        if: success()
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_GHA_PAT }}
+          repository: ${{ github.repository }}
+          event-type: trigger-playwright-test
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'

@@ -1,26 +1,35 @@
 name: "Playwright Tests"
 
-on:
-  workflow_run:
-    workflows: ["Vercel Preview Deployment"]
-    types: [completed]
-    branches: [main, development]
+# on:
+#   workflow_run:
+#     workflows: ["Vercel Preview Deployment"]
+#     types: [completed]
+#     branches: [main, development]
 
-permissions:
-  actions: read
-  contents: read
+on:
+  repository_dispatch:
+    types: [trigger-playwright-test]
+
+# permissions:
+#   actions: read
+#   contents: read
 
 jobs:
-  on-success:
+  task-1:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    concurrency:
-      group: pr-${{  github.event.workflow_run.pull_requests.number  }}
-      cancel-in-progress: false
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # concurrency:
+    #   group: pr-${{  github.event.workflow_run.pull_requests.number  }}
+    #   cancel-in-progress: false
     steps:
       - run: echo 'The triggering workflow passed'
         timeout-minutes: 60
       - uses: actions/checkout@v4
+        # - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.client_payload.sha }}
+      # - uses: r-lib/actions/setup-r@master
+      # - uses: r-lib/actions/setup-pandoc@master
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
@@ -42,17 +51,16 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    concurrency:
-      group: pr-${{  github.event.workflow_run.pull_requests.number  }}
-      cancel-in-progress: false
-    steps:
-      - run: |
-          # echo 'The triggering workflow failed'
-          core.setFailed("The triggering workflow failed")
-
+  # on-failure:
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+  #   concurrency:
+  #     group: pr-${{  github.event.workflow_run.pull_requests.number  }}
+  #     cancel-in-progress: false
+  #   steps:
+  #     - run: |
+  #         # echo 'The triggering workflow failed'
+  #         core.setFailed("The triggering workflow failed")
 #
 # # ? Run test locally on github
 #       - name: Install dependencies and concurrently # to allow running dev and test together
