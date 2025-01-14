@@ -18,10 +18,6 @@ on:
 jobs:
   playwright-tests:
     runs-on: ubuntu-latest
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    # concurrency:
-    #   group: pr-${{  github.event.workflow_run.pull_requests.number  }}
-    #   cancel-in-progress: false
     steps:
       - run: echo 'The triggering workflow passed'
         timeout-minutes: 60
@@ -52,16 +48,6 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-  # on-failure:
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-  #   concurrency:
-  #     group: pr-${{  github.event.workflow_run.pull_requests.number  }}
-  #     cancel-in-progress: false
-  #   steps:
-  #     - run: |
-  #         # echo 'The triggering workflow failed'
-  #         core.setFailed("The triggering workflow failed")
 #
 # # ? Run test locally on github
 #       - name: Install dependencies and concurrently # to allow running dev and test together
