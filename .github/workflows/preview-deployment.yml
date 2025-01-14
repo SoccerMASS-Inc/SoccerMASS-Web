@@ -6,7 +6,7 @@ env:
 
 on:
   pull_request:
-    branches: [main, development, w]
+    branches: [main, development]
 
 jobs:
   task-1:
@@ -27,18 +27,21 @@ jobs:
       - name: Deploy Project Artifacts to Vercel
         run: |
           deployment_url="https://wave-research-8m1fgx0vo-waverd.vercel.app"
-          # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
-          intended_alias_hostname=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~')
           deployment_hostname=${deployment_url#*://}
 
-          echo "Deployment URL: $deployment_hostname"
-          echo "Intended Alias: $intended_alias_hostname"
+          # deployment_url="$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})"
+          # intended_alias_hostname=$(echo "${{ vars.CLIENT_URL }}" | sed 's~^[a-zA-Z]*://~~')
 
           deployment_id=$(curl -s -G \
-            -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
-            "https://api.vercel.com/v6/deployments/$deployment_hostname" | jq -r '.id')
-            
+          -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
+          "https://api.vercel.com/v6/deployments/$deployment_hostname" | jq -r '.id')
+
+
+          intended_alias_hostname="${deployment_id}${vars.BASE_DOMAIN}"
+
           echo "Deployment ID: $deployment_id"
+          echo "Deployment URL: $deployment_hostname"
+          echo "Intended Alias: $intended_alias_hostname"
 
           if [ -z "$deployment_id" ]; then
             echo "Failed to retrieve deployment ID. Exiting..."
@@ -72,11 +75,3 @@ jobs:
           fi
 
           echo "Alias set successfully for deployment: $deployment_id"
-      - name: Trigger next workflow
-        if: success()
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.REPO_GHA_PAT }}
-          repository: ${{ github.repository }}
-          event-type: playwright-tests
-          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
