@@ -13,8 +13,8 @@ jobs:
   preview-deployment:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    outputs:
-      PREVIEW_URL1: ${{ steps.set-preview-url.outputs.PREVIEW_URL1 }}
+    # outputs:
+    #   PREVIEW_URL1: ${{ steps.set-preview-url.outputs.PREVIEW_URL1 }}
     steps:
       - uses: actions/checkout@v4
         # - name: Install dependencies
@@ -80,23 +80,32 @@ jobs:
         run: |
           intended_alias_hostname="8m1fgx0vo.waverd.com"
           preview_url="https://${intended_alias_hostname}"
-          echo "Preview URL1: $preview_url"
+          echo "Preview URL1: "
           # echo "{preview}={$preview_url}" >> $GITHUB_OUTPUT
-          echo "PREVIEW_URL1=$preview_url" >> $GITHUB_ENV
-
-      - id: get-env
-        run: |
-          echo "The value of PREVIEW_URL is $PREVIEW_URL1"
-          echo "The value of PREVIEW_URL is $preview_url"
+          # echo "PREVIEW_URL1=$preview_url" >> $GITHUB_ENV
+          - name: Save URL to artifact
+          echo "$preview_url" > preview_url.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: preview-url
+          path: preview_url.txt
+      # - id: get-env
+      #   run: |
+      #     echo "The value of PREVIEW_URL is $PREVIEW_URL1"
+      #     # echo "The value of PREVIEW_URL is $preview_url"
 
   playwright-tests:
     timeout-minutes: 5
     runs-on: ubuntu-latest
-    outputs:
-      PREVIEW_URL: ${{ needs.preview-deployment.outputs.PREVIEW_URL1 }}
     needs: preview-deployment
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: preview-url
+      - name: Load URL
+        run: echo "PREVIEW_URL=$(cat preview_url.txt)" >> $GITHUB_ENV
+
       # - uses: actions/setup-node@v4
       #   with:
       #     node-version: lts/*
@@ -105,18 +114,11 @@ jobs:
       # - name: Install Playwright Browsers
       #   # run: pnpm exec playwright install --with-deps
       #   run: npx playwright install --with-deps chromium
-      - name: Pass URL to post playwright
-        id: pass-url
-        run: |
-          echo "{preview}={$preview_url}" >> $GITHUB_OUTPUT
       - name: Run test #Wait for deployment to complete and run Playwright tests
         env:
           NODE_ENV: preview
-          PREVIEW_URL: ${{ needs.preview-deployment.outputs.PREVIEW_URL1 }}
         run: |
           echo "PREVIEW_URL: $PREVIEW_URL"
-          echo "PREVIEW_URL1: $PREVIEW_URL1"
-          echo "Playwright test - BASE_URL - $PREVIEW_URL"
           # npx wait-on https://$PREVIEW_URL && PREVIEW_URL=https://$PREVIEW_URL npx playwright test
 
       # - uses: actions/upload-artifact@v4
@@ -131,13 +133,17 @@ jobs:
     runs-on: ubuntu-latest
     needs: playwright-tests
     steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: preview-url
+      - name: Load URL
+        run: echo "PREVIEW_URL=$(cat preview_url.txt)" >> $GITHUB_ENV
+
       - name: Delete Vercel Domain Alias
         env:
           NODE_ENV: preview
-          PREVIEW_URL: ${{ needs.playwright-tests.outputs.preview_url }}
         run: |
           echo "PREVIEW_URL $PREVIEW_URL"
-          echo "PREVIEW_URLs $PREVIEW_URL1"
       # - id: delete-preview-url
       #   run: |
       #     vercel alias rm $PREVIEW_URL --token=${{ secrets.VERCEL_TOKEN }} --yes
