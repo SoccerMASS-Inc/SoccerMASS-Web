@@ -8,7 +8,7 @@ export default defineConfig({
   reporter: [["html", { open: "never" }]] /* Reporter to use. See https://playwright.dev/docs/test-reporters */,
   forbidOnly: !!process.env.CI /* Fail the build on CI if you accidentally left test.only in the source code. */,
   use: {
-    baseURL: process.env.CI ? "http://localhost:3000" : "http:localhost:8081",
+    baseURL: process.env.CI ? process.env.PREVIEW_URL : "http:localhost:8081",
     trace: "on-first-retry" /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */,
   },
 

@@ -1,11 +1,13 @@
 import type { NextConfig } from "next";
 
-const [test, development, production] = ["https://preview.waverd.com", "http://localhost:8081", "https://api.waverd.com"];
+const [preview, development, production] = ["https://dev.waverd.com", "http://localhost:8081", "https://api.waverd.com"];
+
+type n_env = "preview" | "development" | "production";
 
 const STABLE_VERSION = "/v1",
-  INIT_NODE_ENV = process.env.NODE_ENV,
-  SERVER_ENV_URLS = { test, development, production },
+  INIT_NODE_ENV = process.env.NODE_ENV as n_env,
   DOMAINS = ["apihub", "games", "console", "accounts"],
+  SERVER_ENV_URLS = { preview, development, production },
   BASE_URL = SERVER_ENV_URLS[INIT_NODE_ENV] + STABLE_VERSION;
 
 const nextConfig: NextConfig = {
