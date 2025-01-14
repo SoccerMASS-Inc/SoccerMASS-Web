@@ -8,10 +8,6 @@ on:
   pull_request:
     branches: [main, development]
 
-permissions:
-  actions: read
-  contents: read
-
 jobs:
   task-1:
     runs-on: ubuntu-latest
