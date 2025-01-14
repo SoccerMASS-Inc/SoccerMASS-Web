@@ -83,7 +83,7 @@ jobs:
           echo "Preview URL1: "
           # echo "{preview}={$preview_url}" >> $GITHUB_OUTPUT
           # echo "PREVIEW_URL1=$preview_url" >> $GITHUB_ENV
-          - name: Save URL to artifact
+          # - name: Save URL to artifact
           echo "$preview_url" > preview_url.txt
       - uses: actions/upload-artifact@v4
         with:
