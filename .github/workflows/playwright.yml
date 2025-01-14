@@ -1,4 +1,5 @@
-name: Playwright Tests
+name: "Playwright Tests"
+
 on:
   workflow_run:
     workflows: ["Vercel Preview Deployment"]
@@ -7,10 +8,10 @@ on:
 jobs:
   on-success:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     concurrency:
       group: pr-${{  github.event.workflow_run.pull_requests.number  }}
       cancel-in-progress: false
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - run: echo 'The triggering workflow passed'
         timeout-minutes: 60
