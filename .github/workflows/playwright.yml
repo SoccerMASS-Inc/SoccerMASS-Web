@@ -95,11 +95,12 @@ jobs:
         run: npm install -g pnpm && pnpm install
 
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+        # run: pnpm exec playwright install --with-deps
+        run: pnpm exec playwright install --with-deps --browser=chromium
 
       - name: Run test #Wait for deployment to complete and run Playwright tests
         run: |
-          vercel alias rm $intended_alias_hostname --token=${{ secrets.VERCEL_TOKEN }} --yes
+          echo "PREVIEW_URL $PREVIEW_URL"
           npx wait-on https://$PREVIEW_URL && PREVIEW_URL=https://$PREVIEW_URL npx playwright test
         env:
           NODE_ENV: preview
