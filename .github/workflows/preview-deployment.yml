@@ -37,7 +37,7 @@ jobs:
           "https://api.vercel.com/v6/deployments/$deployment_hostname" | jq -r '.id')
 
 
-          intended_alias_hostname="${deployment_id}${vars.BASE_DOMAIN}"
+          intended_alias_hostname="$deployment_id${vars.BASE_DOMAIN}"
 
           echo "Deployment ID: $deployment_id"
           echo "Deployment URL: $deployment_hostname"
