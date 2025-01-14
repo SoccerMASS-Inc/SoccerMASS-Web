@@ -8,14 +8,15 @@ name: "Playwright Tests"
 
 on:
   repository_dispatch:
-    types: [playwright-tests]
+    types:
+      - playwright-tests
 
 # permissions:
 #   actions: read
 #   contents: read
 
 jobs:
-  task-1:
+  playwright-tests:
     runs-on: ubuntu-latest
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     # concurrency:
