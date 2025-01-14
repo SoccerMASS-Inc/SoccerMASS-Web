@@ -10,6 +10,11 @@ on:
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
+    outputs:
+      pr_number: ${{ github.event.pull_request.number }}
+    concurrency:
+      group: pr-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
