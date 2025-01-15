@@ -1,4 +1,4 @@
-name: "Run Playwright Tests"
+name: "Playwright Tests"
 
 env:
   BASE_DOMAIN: ${{ vars.BASE_DOMAIN }}
